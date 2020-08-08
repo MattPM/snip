@@ -62,6 +62,7 @@ gene_rm2 = str_detect(string = gene_union, pattern = "RP[0-9]-" )
 gene_union = gene_union[!gene_rm2]
 gene_rm = gene_union[grep(pattern = "RP11|MT-", gene_union)]
 gene_union = gene_union[gene_union %ni% gene_rm]
+
 ```
 
 ## put quotes around each element of a vector 
@@ -69,6 +70,23 @@ gene_union = gene_union[gene_union %ni% gene_rm]
 vector = c('BUB1B, CCL22, CD58, CD59, DBI')
 cat(gsub("\\b", '"', vector, perl=T)) 
 
+```
+
+
+## single cell 
+
+
+## var genes in scran from seurat remove mt rp
+
+```
+bsce = Convert(from = bc, to = "sce")
+poiss_trend = scran::trendVar(bsce, use.spikes = FALSE)
+var_fit = scran::decomposeVar(x = bsce, fit = poiss_trend)
+var_gene = var_fit %>% as.data.frame() %>% rownames_to_column("gene") %>% filter(bio > 0.001) %$% gene
+gene_rm = str_detect(string = var_gene, pattern = "RP[0-9]-" )
+var_gene = var_gene[!gene_rm]
+gene_rm2 = var_gene[grep(pattern = "RP11|MT-", var_gene)]
+var_gene = var_gene[var_gene %ni% gene_rm2]
 ```
 
 
