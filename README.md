@@ -75,30 +75,24 @@ cat(gsub("\\b", '"', vector, perl=T))
 ## Git 
 
 ```
+cd _path_to_repo_
 git init 
 
-
-
-
-git pull https://github.com/MattPM/dsb_normalization
-
+git pull https://github.com/MattPM/repo
 
 git add .
 git commit -m "add dsb norm funcion"
 
-git config --global user.email mattmule@gmail.com
+git config --global user.email my_email@__.com
 git commit --amend --reset-author
 
-
-
-git remote add origin https://github.com/MattPM/dsb_normalization
-
+git remote add origin https://github.com/MattPM/repo
 
 git pull origin master 
-
 git push origin master 
 
 git status 
 # On branch master
 # nothing to commit, working tree clean
+
 ```
