@@ -1,5 +1,5 @@
 # snip
-useful snippets
+code snippets used frequently for reference. 
 
 ## tidyverse 
 
