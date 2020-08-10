@@ -59,7 +59,7 @@ For doing annoying things with strings and regex
 ```
 # btm_names = the names of the list BTM e.g. names(btm) str(btm) -- list 
 
-vapply(strsplit(btm_names," "), `[`, 1, FUN.VALUE=character(1))
+new_btm_names = vapply(strsplit(btm_names," "), `[`, 1, FUN.VALUE=character(1))
 ```
 
 ## remove a subset of genes based on regex 
