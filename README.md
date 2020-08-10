@@ -54,6 +54,14 @@ ggplot things
 
 For doing annoying things with strings and regex 
 
+## separate the BTM names by the first space to get the short name 
+
+```
+# btm_names = the names of the list BTM e.g. names(btm) str(btm) -- list 
+
+vapply(strsplit(btm_names," "), `[`, 1, FUN.VALUE=character(1))
+```
+
 ## remove a subset of genes based on regex 
 ```{r}
 # starting from an indexed list (eg. by cell type) 
