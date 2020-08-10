@@ -5,7 +5,7 @@ code snippets used frequently for reference.
 
 Tidy syntax based 
 
-## map values indexed by a list 
+### map values indexed by a list 
 ```{r}
 # read Meta data table
 meta_table = read_delim(file = "git_ignore/meta_table.txt", delim = "\t")
@@ -27,7 +27,7 @@ meta = do.call(cbind, meta)
 rownames(meta) = NULL
 ```
 
-## dplyr::group_by() %>% dplyr::summarize() create multiple summary vars at once
+### dplyr::group_by() %>% dplyr::summarize() create multiple summary vars at once
 ```
 # just separate the new vars being added within the summarize call after the pipe! 
 # df is a long dataframe with celltype, timepoint, sampleid, gene, norm_count 
@@ -42,7 +42,7 @@ summary_df = df %>%
   
 ```
 
-## get specific columns matching string 
+### select specific columns matching string 
 
 ```{r}
 Get specific columns matching strings 
@@ -58,18 +58,16 @@ column_to_rownames("ENSEMBL63_GENE_NAME")
 
 ggplot things 
 
-## rotate axis 
+### rotate axis 
 ```{r}
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
-
-
 
 ## strings 
 
 For doing annoying things with strings and regex 
 
-## separate the BTM names by the first space to get the short name 
+### separate something (BTM list names) by the first space to get the short name 
 
 ```
 # btm_names = the names of the list BTM e.g. names(btm) str(btm) -- list 
@@ -77,7 +75,7 @@ For doing annoying things with strings and regex
 new_btm_names = vapply(strsplit(btm_names," "), `[`, 1, FUN.VALUE=character(1))
 ```
 
-## remove a subset of genes based on regex 
+### remove a subset of genes based on regex 
 ```{r}
 # starting from an indexed list (eg. by cell type) 
 gene_union = unlist(genes_scmod) %>% unique()
@@ -99,7 +97,7 @@ cat(gsub("\\b", '"', vector, perl=T))
 ## single cell 
 
 
-## var genes in scran from seurat remove mt rp
+### var genes in scran from seurat remove mt rp
 
 ```
 bsce = Convert(from = bc, to = "sce")
@@ -110,6 +108,13 @@ gene_rm = str_detect(string = var_gene, pattern = "RP[0-9]-" )
 var_gene = var_gene[!gene_rm]
 gene_rm2 = var_gene[grep(pattern = "RP11|MT-", var_gene)]
 var_gene = var_gene[var_gene %ni% gene_rm2]
+```
+
+## Lists 
+
+### reorder a list based on vector
+```
+mylist = mylist[order(match(names(mylist), vector_with_desired_order))]
 ```
 
 
