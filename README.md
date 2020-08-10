@@ -122,3 +122,10 @@ git status
 # nothing to commit, working tree clean
 
 ```
+
+## links 
+
+https://bioconductor.org/about/release-announcements/
+
+https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes
+http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
