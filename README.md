@@ -27,6 +27,21 @@ meta = do.call(cbind, meta)
 rownames(meta) = NULL
 ```
 
+## dplyr::group_by() %>% dplyr::summarize() create multiple summary vars at once
+```
+# just separate the new vars being added within the summarize call after the pipe! 
+# df is a long dataframe with celltype, timepoint, sampleid, gene, norm_count 
+summary_df = df %>% 
+  group_by(celltype, timepoint, sampleid, gene) %>% 
+  summarize(
+    gene_sd = sd(norm_count),
+    gene_mad = mad(norm_count), 
+    gene_mean = mean(norm_count), 
+    ) 
+    
+  
+```
+
 ## get specific columns matching string 
 
 ```{r}
