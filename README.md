@@ -140,7 +140,6 @@ git status
 
 ## links 
 
-https://bioconductor.org/about/release-announcements/
-
-https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes
+https://bioconductor.org/about/release-announcements/  
+https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes  
 http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
