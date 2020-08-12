@@ -38,12 +38,8 @@ summary_df = df %>%
     gene_mad = mad(norm_count), 
     gene_mean = mean(norm_count), 
     ) 
-    
-  
 ```
-
 ### select specific columns matching string 
-
 ```{r}
 Get specific columns matching strings 
 
@@ -62,9 +58,7 @@ ggplot things
 ```{r}
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
-
 ### add a marginal plot (like a histogram) 
-
 ```
 # main plot
 p1 = ggplot(df, aes(x = x, y = y)) + geom_point(shape = 21, size = 2.5, color = "grey" ,stroke = 0.1)
@@ -105,7 +99,6 @@ For doing annoying things with strings and regex
 
 new_btm_names = vapply(strsplit(btm_names," "), `[`, 1, FUN.VALUE=character(1))
 ```
-
 ### remove a subset of genes based on regex 
 ```{r}
 # starting from an indexed list (eg. by cell type) 
@@ -116,7 +109,6 @@ gene_rm = gene_union[grep(pattern = "RP11|MT-", gene_union)]
 gene_union = gene_union[gene_union %ni% gene_rm]
 
 ```
-
 ## put quotes around each element of a vector 
 ```{r}
 vector = c('BUB1B, CCL22, CD58, CD59, DBI')
@@ -124,12 +116,9 @@ cat(gsub("\\b", '"', vector, perl=T))
 
 ```
 
-
 ## single cell 
 
-
-### var genes in scran from seurat remove mt rp
-
+### var genes in scran from seurat remove mt rp 
 ```
 bsce = Convert(from = bc, to = "sce")
 poiss_trend = scran::trendVar(bsce, use.spikes = FALSE)
@@ -140,17 +129,13 @@ var_gene = var_gene[!gene_rm]
 gene_rm2 = var_gene[grep(pattern = "RP11|MT-", var_gene)]
 var_gene = var_gene[var_gene %ni% gene_rm2]
 ```
-
 ## Lists 
 
 ### reorder a list based on vector
 ```
 mylist = mylist[order(match(names(mylist), vector_with_desired_order))]
 ```
-
-
 ## Git 
-
 ```
 cd _path_to_repo_
 git init 
@@ -173,9 +158,7 @@ git status
 # nothing to commit, working tree clean
 
 ```
-
 ## links 
-
 https://bioconductor.org/about/release-announcements/  
 https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes  
 http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
