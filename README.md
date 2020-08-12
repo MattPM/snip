@@ -63,6 +63,37 @@ ggplot things
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
 
+### add a marginal plot (like a histogram) 
+
+```
+# main plot
+p1 = ggplot(df, aes(x = x, y = y)) + geom_point(shape = 21, size = 2.5, color = "grey" ,stroke = 0.1)
+
+# marginal x axis for top
+xtop = axis_canvas(p1, axis = "x") + geom_density(data = df, aes(x = x, fill = timepoint))
+
+# marginal x axis for bottom 
+xbottom = axis_canvas(p1, axis = "x") +
+  geom_point(data = df, aes(x = x, y = whatever), shape = 16, alpha = 0.2) + 
+  geom_smooth(data = df, aes(x = x, y = whatever),method = "loess", color = "blue3") 
+
+# marginal boxplot for y axis 
+ybox = axis_canvas(p1, axis = "y", coord_flip = FALSE) +
+  geom_boxplot(data = df, aes(y = component_2, fill = group_separator), show.legend = TRUE)
+
+# combine 
+p2 = insert_xaxis_grob(p1, xtop, grid::unit(.2, "null"), position = "top")
+p3 = insert_yaxis_grob(p2, ybox, grid::unit(.2, "null"), position = "right")
+p4 =  insert_xaxis_grob(p3, xbottom, grid::unit(.6, "null"), position = "bottom")
+p6 = ggdraw(p4)
+p6
+# save 
+ggsave(p6, filename = paste0(figpath, "whatever.pdf"), width = 8, height = 10)
+
+#
+```
+
+
 ## strings 
 
 For doing annoying things with strings and regex 
