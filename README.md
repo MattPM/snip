@@ -157,6 +157,15 @@ git status
 # On branch master
 # nothing to commit, working tree clean
 
+######### 
+# to ignore entire file path in project directory recursively in the gitignore file add: 
+path/I/Want/To/Ignore*
+
+# to ignore a single file in each sub directory with the same name (ignore all generated data and figures)
+generated_data/
+data/
+figures/
+
 ```
 ## links 
 https://bioconductor.org/about/release-announcements/  
