@@ -174,7 +174,7 @@ figures/
 step 1 ssh login to hpc
 
 step 2
-qrsh -l mem_free=240G, h_vmem=30G threaded 8 quick 
+ qrsh -l mem_free=240G,h_vmem=30G -pe threaded 8 
 
 step 3 change to your working directory where you want to start the scripts form
 cd /path/to/your_directory
