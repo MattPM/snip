@@ -86,6 +86,22 @@ ggsave(p6, filename = paste0(figpath, "whatever.pdf"), width = 8, height = 10)
 
 #
 ```
+### gsea bubble individual 
+```
+p = ggplot(df, aes(x = module, y = padj )) +
+  geom_point(aes(size = NES),  color = "#195e83") +
+  theme_bw() + 
+  theme(axis.text.y = element_text(face = "bold", color = "black", size = 5)) + 
+  theme(axis.text.x = element_text(face = "bold", color = "black")) + 
+  theme(axis.title.x = element_text(face = "bold", color = "black")) + 
+  ylab(" -log10 enrichment p value ") + 
+  xlab("") + 
+  geom_hline(yintercept = 1.3, linetype = "dashed", size = 0.25) + 
+  coord_flip()
+p
+ggsave(p, filename = paste0(figpath, ".pdf"), width = 5, height = 2.5)
+```
+
 
 
 ## strings 
