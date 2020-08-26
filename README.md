@@ -210,6 +210,13 @@ r/3.3.1-foss-2016b            r/3.5.1
 ```
 
 
+```
+norm_prot = DSBNormalizeProtein(cell_protein_matrix = cell_droplets,
+                                empty_drop_matrix = empty_droplets
+                                )
+
+```
+
 ## links 
 https://bioconductor.org/about/release-announcements/  
 https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes  
