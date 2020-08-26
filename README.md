@@ -209,6 +209,22 @@ r/3.3.1-foss-2016b            r/3.5.1
 
 ```
 
+# python virtual env 
+
+```
+# eg for umap in r must have python installed.
+virtualenv_create("r-reticulate")
+virtualenv_install("r-reticulate", "umap-learn")
+use_virtualenv("r-reticulate")
+library(umap)
+config = umap.defaults
+config$n_neighbors = 35
+config$min_dist = 0.6
+
+# run umap
+ump = umap(mymatrix,config = config)
+```
+
 
 ```
 norm_prot = DSBNormalizeProtein(cell_protein_matrix = cell_droplets,
