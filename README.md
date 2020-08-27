@@ -50,9 +50,12 @@ column_to_rownames("ENSEMBL63_GENE_NAME")
 
 ```
 
-## ggplot 
+## ploting
 
-ggplot things 
+### adjust a single color to manually add transparency 
+```
+adjustcolor( "red", alpha.f = 0.2)
+```
 
 ### rotate axis 
 ```{r}
@@ -101,7 +104,6 @@ p = ggplot(df, aes(x = module, y = padj )) +
 p
 ggsave(p, filename = paste0(figpath, ".pdf"), width = 5, height = 2.5)
 ```
-
 
 
 ## strings 
