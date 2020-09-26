@@ -83,11 +83,6 @@ p2 = insert_xaxis_grob(p1, xtop, grid::unit(.2, "null"), position = "top")
 p3 = insert_yaxis_grob(p2, ybox, grid::unit(.2, "null"), position = "right")
 p4 =  insert_xaxis_grob(p3, xbottom, grid::unit(.6, "null"), position = "bottom")
 p6 = ggdraw(p4)
-p6
-# save 
-ggsave(p6, filename = paste0(figpath, "whatever.pdf"), width = 8, height = 10)
-
-#
 ```
 ### gsea bubble individual 
 ```
@@ -101,10 +96,24 @@ p = ggplot(df, aes(x = module, y = padj )) +
   xlab("") + 
   geom_hline(yintercept = 1.3, linetype = "dashed", size = 0.25) + 
   coord_flip()
-p
-ggsave(p, filename = paste0(figpath, ".pdf"), width = 5, height = 2.5)
 ```
+### label points by group on a scatterplot a la seurat 
+```{r}
+# taken from seurat V2 DimPlot
+df = c(x, y, celltype) 
 
+# for example
+ggplot(df, aes(x = x, y = y) + geom_point()
+
+# define cluster center 
+centers = data.plot %>% 
+  dplyr::group_by(ident) %>% 
+    summarize(x = median(x = x), y = median(x = y))
+
+# add that data layer to the plot 
+p = p + geom_point(data = centers, mapping = aes(x = x, y = y), size = 0, alpha = 0) + 
+            geom_text(data = centers, mapping = aes(label = celltype))
+```
 
 ## strings 
 
