@@ -113,6 +113,19 @@ centers = data.plot %>%
 # add that data layer to the plot 
 p = p + geom_point(data = centers, mapping = aes(x = x, y = y), size = 0, alpha = 0) + 
             geom_text(data = centers, mapping = aes(label = celltype))
+            
+            
+            
+centers = df2 %>% dplyr::group_by(cluster_cohort) %>% 
+  summarize(UMAP_1 = median(UMAP_1), UMAP_2 = median(UMAP_2))
+
+# add that data layer to the plot 
+
+p = ggplot(df2, aes(x = UMAP_1, y = UMAP_2, color = cluster_cohort)) +
+  geom_point(size = 0.2, alpha = 0.3, show.legend = FALSE) 
+p = p + geom_point(data = centers, mapping = aes(x = UMAP_1, y = UMAP_2), size = 0, alpha = 0, show.legend = FALSE) + 
+  ggrepel::geom_text_repel(data = centers, mapping = aes(label = cluster_cohort), show.legend = FALSE) + 
+  scale_color_manual(values = distinct_60)
 ```
 
 ## strings 
