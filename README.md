@@ -50,7 +50,16 @@ column_to_rownames("ENSEMBL63_GENE_NAME")
 
 ```
 
-### lead and lag to calculaet a fold change
+### filter rows matching a string 
+just use grepl inside the filter argument 
+```{r}
+# combine a list of dataframes and filter based on the group variable matching a string 
+df2 = list %>%
+  bind_rows() %>% 
+  filter(grepl("this_string|or_this_string", x = group)) 
+```
+
+### lead and lag to calculate a fold change
 assuming log transformed data so subtracting to calculate a fold change. 
 Calculate the log fold change of the variable "average" over 2 timepoints.  
 The filter removes the unused rows because they are now summarized by the fold change. 
