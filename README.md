@@ -294,4 +294,5 @@ norm_prot = DSBNormalizeProtein(cell_protein_matrix = cell_droplets,
 ## links 
 https://bioconductor.org/about/release-announcements/  
 https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes  
+https://bioconductor.org/packages/3.8/workflows/html/simpleSingleCell.html
 http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
