@@ -72,7 +72,18 @@ new_df =
  
 ```
 
+### full join with frame-specific variable rename 
+joining similar named dataframes by a single variable and retaining frame specific columns by replacing ".x" ".y" string with something that is more obvious 
 
+```{r}
+data = full_join(df1, df2, by = "var1") 
+oldnames = colnames(data)
+newnames = str_replace(string = oldnames, pattern = "\\.x", replacement = "_DF1")
+newnames = str_replace(string = newnames, pattern = "\\.y", replacement = "_DF2")
+colnames(data) = newnames
+# use case 
+dsub = data %>% select("gene", "logFC_DF1"    "P.Value_DF2"    "logFC_DF2" )
+```
 ## ploting
 
 ### adjust a single color to manually add transparency 
