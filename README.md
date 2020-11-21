@@ -91,6 +91,14 @@ dsub = data %>% select("gene", "logFC_DF1"    "P.Value_DF2"    "logFC_DF2" )
 adjustcolor( "red", alpha.f = 0.2)
 ```
 
+### reorder categorical axis by manual order 
+new_order = c("x3", "x1", "x2")
+df$x = factor(df$x, levels = new_order)
+
+### reorder categorical y axis by average y axis value of tidy data
+av_y = df %>% group_by(x) %>% summarize(meany = mean(y)) %>% arrange(meany) %$% y
+df$y = factor(df$y, levels = av_y)
+
 ### rotate axis 
 ```{r}
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
