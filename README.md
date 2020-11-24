@@ -218,6 +218,8 @@ var_gene = var_gene[var_gene %ni% gene_rm2]
 mylist = mylist[order(match(names(mylist), vector_with_desired_order))]
 ```
 ## Git 
+
+### simple git workflow 
 ```
 cd _path_to_repo_
 git init 
@@ -249,6 +251,18 @@ data/
 figures/
 
 ```
+### generating the r markdown included in git repo as a pdf 
+
+```
+# https://stackoverflow.com/questions/7694887/is-there-a-command-line-utility-for-rendering-github-flavored-markdown
+# install grip 
+# cd to dir where markdown is 
+grip README.md
+# go to localhost/whatever and print -> save as pdf 
+
+
+```
+
 
 ## HPC 
 ### R 3.5 linux workflow on locus 
