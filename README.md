@@ -6,7 +6,25 @@ code snippets used frequently for reference.
 Tidy syntax based 
 
 ### map values indexed by a list 
+
+
 ```{r}
+# map a vector of values from a metatable met directly to aother dataframe with data d  
+# with the shared variable subject (in d) and `Subject ID` (in met)
+# d = some data frame 
+# met = some metadata columns to append onto d matching by subject ids 
+ids_map = names(met)[2:length(names(met))] # 1 is `Subject ID`, dont' map that 
+
+# add metadata based on map values list wise 
+for (i in 1:length(ids_map)) {
+  d[[ids_map[i]]] = plyr::mapvalues(ddf$subject, from = met$`Subject ID`, to = met[[ids_map[i]]])
+} 
+
+```
+
+
+```{r}
+# another example
 # read Meta data table
 meta_table = read_delim(file = "git_ignore/meta_table.txt", delim = "\t")
 ids_map = names(meta_table)
