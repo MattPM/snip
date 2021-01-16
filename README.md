@@ -1,12 +1,12 @@
 # snip
-code snippets used frequently for reference. 
+
+Code snippets for convenience.
 
 ## tidyverse 
 
 Tidy syntax based 
 
 ### map values indexed by a list 
-
 
 ```{r}
 # map a vector of values from a metatable met directly to aother dataframe with data d  
@@ -19,36 +19,27 @@ ids_map = names(met)[2:length(names(met))] # 1 is `Subject ID`, dont' map that
 for (i in 1:length(ids_map)) {
   d[[ids_map[i]]] = plyr::mapvalues(ddf$subject, from = met$`Subject ID`, to = met[[ids_map[i]]])
 } 
-
+# rbind .. 
 ```
 
-
+### refer to a function argument (environment-variable) as a data-variable to use tidy non standard eval within a function
+#### this is also a good example of collapsing by unique values e.g. to create a design matrix 
+[see here](https://dplyr.tidyverse.org/articles/programming.html) we need to **Embrace** the argument in double brackets {{}} 
 ```{r}
-# another example
-# read Meta data table
-meta_table = read_delim(file = "git_ignore/meta_table.txt", delim = "\t")
-ids_map = names(meta_table)
+collapsedown = function(dat, grouping_var){
+  gvar = rlang::sym(grouping_var)
+  dat %>% 
+    dplyr::group_by({{gvar}}) %>% 
+    dplyr::summarise_each(list(~unique(.)))  
+}
+yy = collapsedown(dat = cell_metadata[ ,vars_all], grouping_var = 'sample')
 
-# some meta data table e.g. seurat or bioconductor pheno data 
-md = s@meta.data
-
-# add metadata based on map values list wise 
-meta = list()
-for (i in 1:length(ids_map)) {
-  md = s@meta.data
-  md[[ids_map[i]]] = plyr::mapvalues(md$sample, from = meta_table$sample, to = meta_table[[ids_map[i]]] )
-  meta[[i]] = md %>% select(ids_map[i])
-} 
-
-# metadata to add to object 
-meta = do.call(cbind, meta) 
-rownames(meta) = NULL
 ```
 
 ### dplyr::group_by() %>% dplyr::summarize() create multiple summary vars at once
+remember one can just separate the new vars being added within the summarize call after the pipe. 
 ```
-# just separate the new vars being added within the summarize call after the pipe! 
-# df is a long dataframe with celltype, timepoint, sampleid, gene, norm_count 
+ # df is a long dataframe with celltype, timepoint, sampleid, gene, norm_count 
 summary_df = df %>% 
   group_by(celltype, timepoint, sampleid, gene) %>% 
   summarize(
