@@ -93,7 +93,14 @@ colnames(data) = newnames
 # use case 
 dsub = data %>% select("gene", "logFC_DF1"    "P.Value_DF2"    "logFC_DF2" )
 ```
-## ploting
+## plotting
+
+### Make the legend key shape a different size than the shape on the plot 
+
+```{r}
+guides(color = guide_legend(override.aes = list(size=2))) 
+
+```
 
 ### adjust a single color to manually add transparency 
 ```
