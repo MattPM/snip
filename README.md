@@ -107,6 +107,20 @@ guides(color = guide_legend(override.aes = list(size=2)))
 adjustcolor( "red", alpha.f = 0.2)
 ```
 
+### stripped down clean aesthetic
+
+```
+mtheme = list(
+  theme_bw(),
+  theme(panel.grid.minor = element_blank(), 
+  panel.grid.major = element_blank(), 
+  axis.ticks.y = element_blank(),
+  axis.ticks.x = element_blank()
+  ) 
+
+```
+
+
 ### reorder categorical axis by manual order 
 new_order = c("x3", "x1", "x2")
 df$x = factor(df$x, levels = new_order)
