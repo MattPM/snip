@@ -107,17 +107,15 @@ guides(color = guide_legend(override.aes = list(size=2)))
 adjustcolor( "red", alpha.f = 0.2)
 ```
 
-### stripped down clean aesthetic
+### stripped down clean aesthetic mtheme
 
 ```
-mtheme = list(
-  theme_bw(),
+  theme_bw() + 
   theme(panel.grid.minor = element_blank(), 
-  panel.grid.major = element_blank(), 
-  axis.ticks.y = element_blank(),
-  axis.ticks.x = element_blank()
-  ) 
-
+      panel.grid.major = element_blank(), 
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank()
+  ) + 
 ```
 
 
