@@ -220,10 +220,18 @@ gene_rm = gene_union[grep(pattern = "RP11|MT-", gene_union)]
 gene_union = gene_union[gene_union %ni% gene_rm]
 
 ```
-## put quotes around each element of a vector 
+### put quotes around each element of a vector 
 ```{r}
 vector = c('BUB1B, CCL22, CD58, CD59, DBI')
 cat(gsub("\\b", '"', vector, perl=T)) 
+
+```
+
+## error handling 
+
+## Generic trycatch 
+```
+tryCatch(function(object = x, args = args), error = function(e) return(NA))
 
 ```
 
