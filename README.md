@@ -113,10 +113,8 @@ adjustcolor( "red", alpha.f = 0.2)
 theme_bw() + 
   theme(panel.grid.minor = element_blank(), panel.grid.major = element_blank(), 
         axis.ticks.y = element_blank(),axis.ticks.x = element_blank(),
-        axis.text.x = element_blank(), axis.text.y = element_blank()
-  ) +  
-  
-  theme(legend.position = 'none')
+        axis.text.x = element_blank(), axis.text.y = element_blank(), 
+        legend.position = 'none')) +
 ```
 
 
