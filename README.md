@@ -21,6 +21,23 @@ ent = ent[!is.na(ent)]
 
 ## tidyverse 
 
+### calculate average of a list of gene stes in a list of gene matrices 
+
+```
+# av = list of RNAseq pbulk matrices, sig = gene list 
+
+d_sig = lapply(av, function(x){
+  lapply(sig, function(y){
+    Matrix::colMeans(x[intersect(y, rownames(x)),  ])
+    }) %>% 
+    do.call(rbind, .)
+  })
+
+  
+```
+
+
+
 Tidy syntax based 
 
 ### map values indexed by a list 
