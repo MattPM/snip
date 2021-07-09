@@ -2,6 +2,23 @@
 
 Code snippets for convenience.
 
+## genomics stuff 
+
+### convert to entrez 
+
+```{r}
+ent =
+  tryCatch(
+    AnnotationDbi::select(org.Hs.eg.db::org.Hs.eg.db,
+                          keys = res$CC10$gene, columns = c("ENTREZID", "SYMBOL"),
+                          keytype = "SYMBOL"),
+    error = function(e) return(NA)
+  )
+dup = duplicated(ent$SYMBOL)
+ent = ent[!dup, ]$ENTREZID
+ent = ent[!is.na(ent)]
+```
+
 ## tidyverse 
 
 Tidy syntax based 
