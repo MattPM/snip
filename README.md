@@ -382,6 +382,19 @@ norm_prot = DSBNormalizeProtein(cell_protein_matrix = cell_droplets,
 
 ```
 
+## system stuff
+
+### speed up time machine backups 
+```
+sudo sysctl debug.lowpri_throttle_enabled=1
+```
+
+### stay awake 
+```
+# last command is time in seconds - this for 27hours, e.g. 86400 is stay awa
+caffeinate -d -i -m -s -t 1000000
+```
+
 ## links 
 https://bioconductor.org/about/release-announcements/  
 https://awesomeopensource.com/project/EmilHvitfeldt/r-color-palettes  
