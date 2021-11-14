@@ -333,33 +333,32 @@ grip README.md
 ```
 
 
-## HPC 
-### R 3.5 linux workflow on locus 
-```
-step 1 ssh login to hpc
+## Linux and HPC 
 
-step 2
- qrsh -l mem_free=240G,h_vmem=30G -pe threaded 8 
+### Show directory structure as a tree 
+
+```
+
+# without the files just directories 
+ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'
+
+# with the directories 
+find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+
+```
+
+### R 3.5 linux workflow 
+```
+# mem request eg 
+qrsh -l mem_free=240G,h_vmem=30G -pe threaded 8 
 
 step 3 change to your working directory where you want to start the scripts form
 cd /path/to/your_directory
 
 # R 3.5 
 module load r/3.5.1_20190921
-
-# available R 
-r/3.1.3-goolf-1.7.20-bare     r/3.3.1-foss-2016b-2016-Q3    r/3.5.1_20190921
-r/3.2.0-goolf-1.7.20-bare     r/3.3.1-foss-2016b-2016-Q4    r/3.5.2-foss-2018b
-r/3.2.1-goolf-1.7.20          r/3.3.2-goolf-1.7.20          r/3.6.0-goolf-1.7.20
-r/3.2.2-goolf-1.7.20-2015-Q4  r/3.4.0-goolf-1.7.20          r/3.6.1
-r/3.2.3-goolf-1.7.20-2016-Q1  r/3.4.3-goolf-1.7.20          r/4.0.1
-r/3.3.0-goolf-1.7.20-2016-Q2  r/3.5.0-goolf-1.7.20          
-r/3.3.1-foss-2016b            r/3.5.1       
-
 ```
-
-# python virtual env 
-
+## python virtual env 
 ```
 # eg for umap in r must have python installed.
 virtualenv_create("r-reticulate")
@@ -373,15 +372,6 @@ config$min_dist = 0.6
 # run umap
 ump = umap(mymatrix,config = config)
 ```
-
-
-```
-norm_prot = DSBNormalizeProtein(cell_protein_matrix = cell_droplets,
-                                empty_drop_matrix = empty_droplets
-                                )
-
-```
-
 ## system stuff
 
 ### speed up time machine backups 
