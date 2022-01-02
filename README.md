@@ -1,6 +1,15 @@
 # snip
 
-Code snippets for convenience.
+Convenience snippets
+
+## package dev checklist  
+- push all function changes  
+- change the version number in DESCRIPTION  
+- update readme.md, news.md, cran-comments.md  
+- push these changes  
+- devtools::check(cran = TRUE)  
+- devtools::check_win_release()  
+- devtools::submit_cran()  
 
 ## genomics stuff 
 
