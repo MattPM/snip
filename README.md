@@ -10,6 +10,7 @@ Convenience snippets
 - devtools::check(cran = TRUE)  
 - devtools::check_win_release()  
 - devtools::submit_cran()  
+- tag a release https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
 
 ## genomics stuff 
 
