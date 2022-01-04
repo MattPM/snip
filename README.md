@@ -1,4 +1,4 @@
-# snip
+# Code Snippets
 
 Convenience snippets
 
@@ -9,7 +9,8 @@ Convenience snippets
 - push these changes  
 - devtools::check(cran = TRUE)  
 - devtools::check_win_release()  
-- devtools::submit_cran()  
+- devtools::submit_cran()
+- CONFIRM SUBMISSION via email (maintiner stable email) 
 - tag a release https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
 
 ## genomics stuff 
