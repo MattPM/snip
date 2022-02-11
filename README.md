@@ -13,7 +13,38 @@ Convenience snippets
 - CONFIRM SUBMISSION via email (maintiner stable email) 
 - tag a release https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
 
-## genomics stuff 
+## genomics related  
+
+### correlation matrix p adjust
+
+Given some data of variables (cols) with observations (rows), use Hmisc::rcorr() to get a symmetric correlation matrix of each pairwise comparison between columns.  object returned from rcorr contains a correlation matrix of rho values, p values and n valuee. The function below will calculate the adjusted p value. 
+
+```{r}
+p.adjust.cormat = function(hmisc.cor, method = 'fdr'){ 
+  stopifnot(isTRUE(isSymmetric(hmisc.cor$P)))
+  p.adj =  p.adjust(hmisc.cor$P[lower.tri(hmisc.cor$P)], method = method)
+  p.adj.mx <- matrix(rep(0,ncol(hmisc.cor$P)*ncol(hmisc.cor$P)), nrow = ncol(hmisc.cor$P))
+  p.adj.mx[lower.tri(p.adj.mx)] <- p.adj
+  p.adj.mx[upper.tri(p.adj.mx)] <- p.adj
+  diag(p.adj.mx) = 1
+  return(p.adj.mx)
+}
+```
+
+### manually calculated bonferonni of pairwise correlations 
+given a matrix with number of columns Y 
+the number of possible pairwise comparisons is (Y * (Y - 1) ) / 2  
+The simple conservative bonferonni comparison multiplies the number of p values by the number of tests. 
+
+```{r}
+
+pmat = Hmisc::rcorr(x)$P
+pvals = lower.tri(pmat)
+ntest = ( ncol(x) * ncol(x) - 1 ) / 2 ) 
+bonferonni.corrected = pvals * ntest
+
+```
+
 
 ### convert to entrez 
 
