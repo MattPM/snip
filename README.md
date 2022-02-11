@@ -27,6 +27,7 @@ p.adjust.cormat = function(hmisc.cor, method = 'fdr'){
   p.adj.mx[lower.tri(p.adj.mx)] <- p.adj
   p.adj.mx[upper.tri(p.adj.mx)] <- p.adj
   diag(p.adj.mx) = 1
+  colnames(p.adj.mx) = rownames(p.adj.mx) = colnames(hmisc.cor$P)
   return(p.adj.mx)
 }
 ```
