@@ -46,6 +46,23 @@ bonferonni.corrected = pvals * ntest
 
 ```
 
+### Make sure the 0 point of a diverging color palette is white in a heatmap
+
+A diverging palette should always be used to display standardized vars or data above and below 0. The mid point of the heatmap should ALWAYS be the mid point in the diverging palette or else you can confuse the reader. 
+
+```{r}
+# got this simple solution from the post below
+# https://stackoverflow.com/questions/31677923/set-0-point-for-pheatmap-in-r
+
+# any diverging palette 
+cu = RColorBrewer::brewer.pal(name = 'PRGn',n = 12)
+range <- max(abs(mtx)); 
+pheatmap(mtx, color = cu, breaks = seq(-range, range, length.out = 12))
+
+```
+to find a diverging palette: 
+`RColorBrewer::display.brewer.all()`
+
 
 ### convert to entrez 
 
