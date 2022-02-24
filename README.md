@@ -370,6 +370,13 @@ git status
 # On branch master
 # nothing to commit, working tree clean
 
+```
+### remove accidental committed file from git history 
+https://rtyley.github.io/bfg-repo-cleaner/#usage
+```
+java -jar  Downloads/bfg-1.14.0.jar --delete-files id_{NAME_OF_HUGE_HTML_FILE.html}  PATH/TO/LOCAL_GIT_REPO/myrepo 
+```
+
 ######### 
 # to ignore entire file path in project directory recursively in the gitignore file add: 
 path/I/Want/To/Ignore*
