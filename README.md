@@ -2,16 +2,20 @@
 
 Convenience snippets
 
-## package dev checklist  
-- push all function changes  
+## package dev 
+### CRAN submission
+- push all function changes to github  
 - change the version number in DESCRIPTION  
-- update readme.md, news.md, cran-comments.md  
+- update readme.md, news.md  
 - push these changes  
-- devtools::check(cran = TRUE)  
-- devtools::check_win_release()  
-- devtools::submit_cran()
-- CONFIRM SUBMISSION via email (maintiner stable email) 
-- tag a release https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository
+- devtools::check(cran = TRUE)   
+- devtools::check_win_release()   
+- update cran-comments.md with the output of cran checks  
+- push this change and any remaining changes to github  
+- devtools::submit_cran()  
+- NOW CHECK EMAIL CONFIRM SUBMISSION via email (maintiner stable email)  
+- once accepted by CRAN, tag a release with the same version number as the updated DESCRIPTION  
+- tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
 
 ## genomics related  
 
