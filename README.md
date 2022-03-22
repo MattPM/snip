@@ -138,6 +138,36 @@ dsub = data %>% select("gene", "logFC_DF1"    "P.Value_DF2"    "logFC_DF2" )
 
 ## data visualization
 
+
+```
+  celltypes             cu              
+"BC_Mem"              "lightslateblue"
+"BC_Naive"            "#2B3D26"       
+"CD103_Tcell"         "#E25822"       
+"CD14_Mono"           "#654522"       
+"CD16_Mono"           "#8DB600"       
+"CD38_Bcell"          "#882D17"       
+"CD4_CD161_Mem_Tcell" "#DCD300"       
+"CD4_CD25_Tcell"      "#B3446C"       
+"CD4_CD56_Tcell"      "maroon1"       
+"CD4_CD57_Tcell"      "#604E97"       
+"CD4_Efct_Mem_Tcell"  "#F99379"       
+"CD4Naive_Tcell"      "#0067A5"       
+"CD8_CD161_Tcell"     "darkseagreen1" 
+"CD8_Mem_Tcell"       "#008856"       
+"CD8_Naive_Tcell"     "#848482"       
+"CD8_NKT"             "#C2B280"       
+"HSC"                 "#BE0032"       
+"IgA_CD14_Mono"       "#A1CAF1"       
+"MAIT_Like"           "#F38400"       
+"mDC"                 "#875692"       
+"NK"                  "#F3C300"       
+"pDC"                 "#222222"       
+"BC_Mem"              "midnightblue"  
+
+```
+
+
 ### Make sure the 0 point of a diverging color palette is white in a heatmap
 
 A diverging palette should always be used to display standardized vars or data above and below 0. The mid point of the heatmap should ALWAYS be the mid point in the diverging palette or else you can confuse the reader. 
