@@ -197,6 +197,8 @@ guides(color = guide_legend(override.aes = list(size=2)))
 ```
 grDevices::adjustcolor( "red", alpha.f = 0.2)
 ```
+## ggplot related 
+ggpot helpers 
 
 ### clean theme 
 
@@ -215,6 +217,15 @@ boxbox = list(
 ### rotate axis 
 ```{r}
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+```
+
+Change all the legend element sizes 
+```{r}
+theme(legend.key.size = unit(0.3, 'cm'), #change legend key size
+        legend.key.height = unit(0.3, 'cm'), #change legend key height
+        legend.key.width = unit(0.3, 'cm'), #change legend key width
+        legend.title = element_text(size=8), #change legend title font size
+        legend.text = element_text(size=8)) #change legend text font size
 ```
 
 ## strings 
