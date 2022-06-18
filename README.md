@@ -2,7 +2,7 @@
 
 Convenience snippets
 
-## package dev 
+## R package development  
 ### CRAN submission
 - push all function changes to github  
 - change the version number in DESCRIPTION  
@@ -16,6 +16,16 @@ Convenience snippets
 - NOW CHECK EMAIL CONFIRM SUBMISSION via email (maintiner stable email)  
 - once accepted by CRAN, tag a release with the same version number as the updated DESCRIPTION  
 - tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
+
+### update packages with a packagedown site 
+- push all function changes to github  
+- change the version number in DESCRIPTION  
+- update readme.md, news.md  
+- push these changes  
+- pkgdown::build_site()
+- push to github
+- tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
+
 
 ## genomics related  
 
@@ -36,20 +46,6 @@ p.adjust.cormat = function(hmisc.cor, method = 'fdr'){
 }
 ```
 
-### manually calculated bonferonni of pairwise correlations 
-given a matrix with number of columns Y 
-the number of possible pairwise comparisons is (Y * (Y - 1) ) / 2  
-The simple conservative bonferonni comparison multiplies the number of p values by the number of tests. 
-
-```{r}
-
-pmat = Hmisc::rcorr(x)$P
-pvals = lower.tri(pmat)
-ntest = ( ncol(x) * ncol(x) - 1 ) / 2 ) 
-bonferonni.corrected = pvals * ntest
-
-```
-
 ### convert entrez IDs to gene symbols visa versa 
 
 ```{r}
@@ -66,20 +62,6 @@ ent = ent[!is.na(ent)]
 ```
 
 ## data wrangling
-
-### Non standard evaluation for programming with dplyr verbs
-
-[see here](https://dplyr.tidyverse.org/articles/programming.html) need to **Embrace** the argument in double brackets {{}}. 
-```{r}
-collapsedown = function(dat, grouping_var){
-  gvar = rlang::sym(grouping_var)
-  dat %>% 
-    dplyr::group_by({{gvar}}) %>% 
-    dplyr::summarise_each(list(~unique(.)))  
-}
-yy = collapsedown(dat = cell_metadata[ ,vars_all], grouping_var = 'sample')
-
-```
 
 ### create multiple grouped aggregation and summary stats simultaneously
 After group by summarize, just separate the new vars being added with commas within the summarize call. 
@@ -100,9 +82,7 @@ use matches
 ```{r}
 x = x %>%
   dplyr::select(matches('somestring')) 
-
 ```
-
 ### filter rows matching a string 
 
 grepl inside the filter argument 
@@ -110,6 +90,7 @@ grepl inside the filter argument
 x = x %>% 
   dplyr::filter(grepl("string1|string2", x = group)) 
 ```
+
 
 ### lead and lag to calculate a fold change
 assuming log transformed data so subtracting to calculate a fold change. 
@@ -123,52 +104,24 @@ new_df =
   filter(timepoint == "second_timepoint")  
 ```
 
-### full join with frame-specific variable rename 
-joining similar named dataframes by a single variable and retaining frame specific columns by replacing ".x" ".y" string with something that is more obvious 
+### Non standard evaluation for programming with dplyr verbs
 
+[see here](https://dplyr.tidyverse.org/articles/programming.html) need to **Embrace** the argument in double brackets {{}}. 
 ```{r}
-data = full_join(df1, df2, by = "var1") 
-oldnames = colnames(data)
-newnames = str_replace(string = oldnames, pattern = "\\.x", replacement = "_DF1")
-newnames = str_replace(string = newnames, pattern = "\\.y", replacement = "_DF2")
-colnames(data) = newnames
-# use case 
-dsub = data %>% select("gene", "logFC_DF1"    "P.Value_DF2"    "logFC_DF2" )
+collapsedown = function(dat, grouping_var){
+  gvar = rlang::sym(grouping_var)
+  dat %>% 
+    dplyr::group_by({{gvar}}) %>% 
+    dplyr::summarise_each(list(~unique(.)))  
+}
+yy = collapsedown(dat = cell_metadata[ ,vars_all], grouping_var = 'sample')
+
 ```
+
 
 ## data visualization
 
-
-```
-  celltypes             cu              
-"BC_Mem"              "lightslateblue"
-"BC_Naive"            "#2B3D26"       
-"CD103_Tcell"         "#E25822"       
-"CD14_Mono"           "#654522"       
-"CD16_Mono"           "#8DB600"       
-"CD38_Bcell"          "#882D17"       
-"CD4_CD161_Mem_Tcell" "#DCD300"       
-"CD4_CD25_Tcell"      "#B3446C"       
-"CD4_CD56_Tcell"      "maroon1"       
-"CD4_CD57_Tcell"      "#604E97"       
-"CD4_Efct_Mem_Tcell"  "#F99379"       
-"CD4Naive_Tcell"      "#0067A5"       
-"CD8_CD161_Tcell"     "darkseagreen1" 
-"CD8_Mem_Tcell"       "#008856"       
-"CD8_Naive_Tcell"     "#848482"       
-"CD8_NKT"             "#C2B280"       
-"HSC"                 "#BE0032"       
-"IgA_CD14_Mono"       "#A1CAF1"       
-"MAIT_Like"           "#F38400"       
-"mDC"                 "#875692"       
-"NK"                  "#F3C300"       
-"pDC"                 "#222222"       
-"BC_Mem"              "midnightblue"  
-
-```
-
-
-### Make sure the 0 point of a diverging color palette is white in a heatmap
+### Make the 0 point of a diverging color palette white
 
 A diverging palette should always be used to display standardized vars or data above and below 0. The mid point of the heatmap should ALWAYS be the mid point in the diverging palette or else you can confuse the reader. 
 
@@ -181,27 +134,36 @@ cu = RColorBrewer::brewer.pal(name = 'PRGn',n = 12)
 range <- max(abs(mtx)); 
 pheatmap(mtx, color = cu, breaks = seq(-range, range, length.out = 12))
 
+# to find a diverging palette: 
+RColorBrewer::display.brewer.all()
+
 ```
-to find a diverging palette: 
-`RColorBrewer::display.brewer.all()`
+### color adjust a single color to manually add transparency 
+```
+grDevices::adjustcolor( "red", alpha.f = 0.2)
+
+```
+
+## ggplot related 
 
 
-### Make the legend key shape a different size than the shape on the plot 
+### ggplot change legend key shape from the main geom on the plot
 
 ```{r}
 guides(color = guide_legend(override.aes = list(size=2))) 
 
 ```
 
-### adjust a single color to manually add transparency 
+### gplot Change all the legend element sizes 
+```{r}
+theme(legend.key.size = unit(0.3, 'cm'), #change legend key size
+        legend.key.height = unit(0.3, 'cm'), #change legend key height
+        legend.key.width = unit(0.3, 'cm'), #change legend key width
+        legend.title = element_text(size=8), #change legend title font size
+        legend.text = element_text(size=8)) #change legend text font size
 ```
-grDevices::adjustcolor( "red", alpha.f = 0.2)
-```
-## ggplot related 
-ggpot helpers 
 
-### clean theme 
-
+### ggplot clean theme 
 ```
 boxbox = list(
   theme_bw(),
@@ -214,18 +176,9 @@ boxbox = list(
         )
 ```
 
-### rotate axis 
+### ggplot rotate axis 
 ```{r}
  + theme(axis.text.x=element_text(angle = -90, hjust = 0))
-```
-
-Change all the legend element sizes 
-```{r}
-theme(legend.key.size = unit(0.3, 'cm'), #change legend key size
-        legend.key.height = unit(0.3, 'cm'), #change legend key height
-        legend.key.width = unit(0.3, 'cm'), #change legend key width
-        legend.title = element_text(size=8), #change legend title font size
-        legend.text = element_text(size=8)) #change legend text font size
 ```
 
 ## strings 
@@ -240,7 +193,7 @@ new_names = vapply(strsplit(oldnames," "), `[`, 1, FUN.VALUE=character(1))
 
 ### remove a subset of vector elements based on regex 
 ```{r}
-gene_rm = str_detect(string = gene_union, pattern = "RP[0-9]-" )
+gene.rm = str_detect(string = gene.vector, pattern = "RP[0-9]-" )
 ```
 
 ### put quotes around each element of a vector 
@@ -264,10 +217,9 @@ tryCatch(function(object = x, args = args), error = function(e) return(NA))
 mylist = mylist[order(match(names(mylist), vector_with_desired_order))]
 ```
 
-
 ## Git 
 
-### simple git workflow 
+### git workflow 
 ```
 cd _path_to_repo_
 git init 
@@ -275,8 +227,9 @@ git init
 git pull https://github.com/MattPM/repo
 
 git add .
-git commit -m "add dsb norm funcion"
+git commit -m "add funcion"
 
+# if error related to user auth etc. try this
 git config --global user.email my_email@__.com
 git commit --amend --reset-author
 
@@ -314,7 +267,6 @@ grip README.md
 # go to localhost/whatever and print -> save as pdf 
 
 ```
-
 
 ## Linux and HPC related 
 
