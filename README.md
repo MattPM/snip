@@ -1,6 +1,6 @@
 # Code Snippets
 
-Miscelaneous 
+Miscellaneous functions and documentation.  
 
 ## R package development  
 ### CRAN submission
@@ -27,6 +27,8 @@ Miscelaneous
 - tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
 
 ## stats related 
+
+### t stats from matrix of variables across 2 groups 
 
 extract variable T statistics on a matrix, with a grouping factor as the first column. Useful for sanirt check on direction of variable importance. 
 Assuming data structure of dataframe `d` looks like: 
@@ -65,6 +67,36 @@ p = ggplot(data = d.long, aes(x = value, y = group,  fill = group, color = group
   theme(strip.text.y = element_text(angle = 0))
 
 # save long fig size 
+
+```
+
+### adjust p values of correlation matrix derived from hmisc 
+
+```
+# given some correlation matrix object returned by hmisc::rcorr(d)
+# d containd columns; all pairwise correlations computed 
+p.adjust.cormat = function(hmisc.cor, method = 'fdr'){ 
+  stopifnot(isTRUE(isSymmetric(hmisc.cor$P)))
+  p.adj.lower = p.adjust(hmisc.cor$P[lower.tri(hmisc.cor$P)], method = method)
+  p.adj.upper = p.adjust(hmisc.cor$P[upper.tri(hmisc.cor$P)], method = method)
+  p.adj.mx <- matrix(rep(0,ncol(hmisc.cor$P)*ncol(hmisc.cor$P)), nrow = ncol(hmisc.cor$P))
+  p.adj.mx[lower.tri(p.adj.mx)] <- p.adj.lower
+  p.adj.mx[upper.tri(p.adj.mx)] <- p.adj.upper
+  diag(p.adj.mx) = 1
+  colnames(p.adj.mx) = rownames(p.adj.mx) = colnames(hmisc.cor$P)
+  stopifnot(isTRUE(isSymmetric(p.adj.mx)))
+  return(p.adj.mx)
+}
+
+```
+
+### simple scale function
+
+```
+# simple function for scaling because scale return format is annoying
+scale.simple = function(x) { 
+  (x - base::mean(x)) / stats::sd(x)
+  }
 
 ```
 
