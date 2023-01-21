@@ -1,6 +1,6 @@
 # Code Snippets
 
-Convenience snippets
+Miscelaneous 
 
 ## R package development  
 ### CRAN submission
