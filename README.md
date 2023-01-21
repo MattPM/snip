@@ -246,11 +246,40 @@ cat(gsub("\\b", '"', vector, perl=T))
 
 ## error handling 
 
-## Generic trycatch 
+### using trycatch 
+generic 
 ```
 tryCatch(function(object = x, args = args), error = function(e) return(NA))
+```
+Example with additional options 
 
 ```
+
+tryCatch(
+  expr = {
+  # function here 
+    m1.pls = train(
+      group ~ .,
+      data = dtrain,
+      method = 'pls',
+      tuneGrid = pls.grid,
+      trControl = ctrl,
+      metric = "ROC"
+    )
+    # end function 
+  },
+  error = function(e){
+    message('error')
+    return(NA)
+  },
+  finally = {
+    message('done')
+  }
+)  
+
+```
+
+
 ## Lists 
 
 ### reorder a list based on vector
