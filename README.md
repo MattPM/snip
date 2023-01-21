@@ -72,6 +72,8 @@ p = ggplot(data = d.long, aes(x = value, y = group,  fill = group, color = group
 
 ### adjust p values of correlation matrix derived from hmisc 
 
+Given some data of variables (cols) with observations (rows), use Hmisc::rcorr() to get a symmetric correlation matrix of each pairwise comparison between columns.  object returned from rcorr contains a correlation matrix of rho values, p values and n valuee. The function below will calculate the adjusted p value. 
+
 ```
 # given some correlation matrix object returned by hmisc::rcorr(d)
 # d containd columns; all pairwise correlations computed 
@@ -102,22 +104,6 @@ scale.simple = function(x) {
 
 ## genomics related  
 
-### correlation matrix p adjust
-
-Given some data of variables (cols) with observations (rows), use Hmisc::rcorr() to get a symmetric correlation matrix of each pairwise comparison between columns.  object returned from rcorr contains a correlation matrix of rho values, p values and n valuee. The function below will calculate the adjusted p value. 
-
-```{r}
-p.adjust.cormat = function(hmisc.cor, method = 'fdr'){ 
-  stopifnot(isTRUE(isSymmetric(hmisc.cor$P)))
-  p.adj =  p.adjust(hmisc.cor$P[lower.tri(hmisc.cor$P)], method = method)
-  p.adj.mx <- matrix(rep(0,ncol(hmisc.cor$P)*ncol(hmisc.cor$P)), nrow = ncol(hmisc.cor$P))
-  p.adj.mx[lower.tri(p.adj.mx)] <- p.adj
-  p.adj.mx[upper.tri(p.adj.mx)] <- p.adj
-  diag(p.adj.mx) = 1
-  colnames(p.adj.mx) = rownames(p.adj.mx) = colnames(hmisc.cor$P)
-  return(p.adj.mx)
-}
-```
 
 ### convert entrez IDs to gene symbols visa versa 
 
