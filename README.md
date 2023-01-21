@@ -26,6 +26,47 @@ Convenience snippets
 - push to github
 - tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
 
+## stats related 
+
+extract variable T statistics on a matrix, with a grouping factor as the first column. Useful for sanirt check on direction of variable importance. 
+Assuming data structure of dataframe `d` looks like: 
+```
+group Var1 Var2
+"low" 5   3
+"low" 5   5
+"high"  3   7
+"high"  3   8
+
+```
+
+code 
+```
+# get t stats of individual features 
+do.ttest = function(x, y) {
+  ttest = t.test(x ~ y)
+  out <- c(tstat = ttest$statistic, pval = ttest$p.value)
+  out
+}
+tval = apply(d[ , -c(1)], MARGIN = 2, FUN = do.ttest, y = d$group) %>%
+  t() %>%
+  as.data.frame() %>%
+  rownames_to_column('feature')
+```
+
+Quick visualization of group differences for select vars in the matrix. 
+
+```
+d.long = d %>%
+  gather(variable, value, Var1:VarN)
+
+p = ggplot(data = d.long, aes(x = value, y = group,  fill = group, color = group)) +
+  geom_boxplot(size = 0.2, outlier.size = 0.1)  +
+  facet_grid(rows = vars(variable), scales = 'free', space = 'free') +
+  theme(strip.text.y = element_text(angle = 0))
+
+# save long fig size 
+
+```
 
 ## genomics related  
 
