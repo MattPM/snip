@@ -18,7 +18,7 @@ Miscellaneous functions and documentation.
 - tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
 
 ### update packages with a packagedown site 
-- push all function changes to github  
+- push all function changes to   
 - change the version number in DESCRIPTION  
 - update readme.md, news.md  
 - push these changes  
@@ -331,9 +331,17 @@ git status
 # nothing to commit, working tree clean
 ```
 
-### remove accidental committed file from git history 
+### remove accidental COMITTED file from git history 
+
 ```
-#https://rtyley.github.io/bfg-repo-cleaner/#usage
+# cd to the root dir of the project 
+git reset HEAD ~git reset HEAD~
+```
+
+### remove accidental PUSHED file from git history  
+If you already comitted the file it is a bit more challenging, but this tool has worked. 
+```
+# download this tool: https://rtyley.github.io/bfg-repo-cleaner/#usage
 java -jar  Downloads/bfg-1.14.0.jar --delete-files id_{NAME_OF_HUGE_HTML_FILE.html}  PATH/TO/LOCAL_GIT_REPO/myrepo 
 ```
 
