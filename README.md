@@ -2,6 +2,11 @@
 
 Miscellaneous functions and documentation.  
 
+## Website workflow
+
+### github pages rendering
+After making changes use `rmarkdown::render_site()`. Then commit + push. 
+
 ## R package development  
 ### CRAN submission
 - push all function changes to github  
