@@ -21,6 +21,8 @@ After making changes use `rmarkdown::render_site()`. Then commit + push.
 - NOW CHECK EMAIL CONFIRM SUBMISSION via email (maintiner stable email)  
 - once accepted by CRAN, tag a release with the same version number as the updated DESCRIPTION  
 - tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
+- reference: https://r-pkgs.org/release.html
+
 
 ### update packages with a packagedown site 
 - push all function changes to   
@@ -33,7 +35,7 @@ After making changes use `rmarkdown::render_site()`. Then commit + push.
 
 ## stats related 
 
-### t stats from matrix of variables across 2 groups 
+### t statistic from matrix of variables across 2 groups 
 
 extract variable T statistics on a matrix, with a grouping factor as the first column. Useful for sanirt check on direction of variable importance. 
 Assuming data structure of dataframe `d` looks like: 
