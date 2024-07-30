@@ -127,6 +127,39 @@ ent = ent[!dup, ]$ENTREZID
 ent = ent[!is.na(ent)]
 ```
 
+### Seurat v2 conversion to v3 or 4 + 
+
+```{r}
+
+# R 4.2 Seurat v 3 or 4 
+suppressMessages(library(Seurat))
+
+# your path datapath = my_path
+# dir.create(datapath)
+
+# read main object Seurat 2.4 
+# s = readRDS(file = 'my_path/'))
+
+# save cell IDs 
+cells = rownames(s@meta.data)
+
+# extract data structure from Seurat V2 object
+md = s@meta.data[cells, ]
+rna.raw = s@raw.data[ ,cells]
+rna.norm = s@data[ ,cells]
+adt.raw = s@assay$CITE@raw.data[ ,cells]
+adt.norm = s@assay$CITE@data[ ,cells]
+
+# make Seurat v4 object 
+ss = CreateSeuratObject(counts = rna.raw, meta.data = md)
+ss@assays$RNA@data = rna.norm
+adt.assay = CreateAssayObject(counts = adt.raw)
+ss[['CITE']] <- adt.assay
+ss@assays$CITE@data <- adt.norm
+saveRDS(ss, file = paste0(datapath, 'new.rds'))
+
+```
+
 ## data wrangling
 
 ### create multiple grouped aggregation and summary stats simultaneously
