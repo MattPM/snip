@@ -266,18 +266,15 @@ theme(legend.key.size = unit(0.3, 'cm'), #change legend key size
 ```
 boxbox = list(
   theme_bw(),
-  theme(panel.grid.minor = element_blank(), 
-        panel.grid.major = element_blank(), 
-        axis.ticks.y = element_blank(), 
-        axis.ticks.x = element_blank(),
-        axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+  theme(panel.grid = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank() 
         )
 ```
 
 ### ggplot rotate axis 
 ```{r}
- + theme(axis.text.x=element_text(angle = -90, hjust = 0))
+ theme(axis.text.x=element_text(angle = -90, hjust = 0))
 ```
 
 ## strings 
@@ -295,7 +292,7 @@ new_names = vapply(strsplit(oldnames," "), `[`, 1, FUN.VALUE=character(1))
 gene.rm = str_detect(string = gene.vector, pattern = "RP[0-9]-" )
 ```
 
-### put quotes around each element of a vector 
+### put quotes around each element of a vector - useful for making gene lists
 ```{r}
 vector = c('BUB1B, CCL22, CD58, CD59, DBI')
 cat(gsub("\\b", '"', vector, perl=T)) 
