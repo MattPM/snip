@@ -20,8 +20,8 @@ After making changes use `rmarkdown::render_site()`. Then commit + push.
 - devtools::submit_cran()  
 - NOW CHECK EMAIL CONFIRM SUBMISSION via email (maintiner stable email)  
 - once accepted by CRAN, tag a release with the same version number as the updated DESCRIPTION  
-- tag release instructions: https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository  
-- reference: https://r-pkgs.org/release.html
+- [instructions on tagging a release](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+- reference: [R package release](https://r-pkgs.org/release.html)
 
 
 ### update packages with a packagedown site 
