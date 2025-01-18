@@ -2,6 +2,7 @@
 
 Miscellaneous functions and documentation.  
 
+
 ## Website workflow
 
 ### github pages rendering
@@ -77,27 +78,6 @@ p = ggplot(data = d.long, aes(x = value, y = group,  fill = group, color = group
 
 ```
 
-### adjust p values of correlation matrix derived from hmisc 
-
-Given some data of variables (cols) with observations (rows), use Hmisc::rcorr() to get a symmetric correlation matrix of each pairwise comparison between columns.  object returned from rcorr contains a correlation matrix of rho values, p values and n valuee. The function below will calculate the adjusted p value. 
-
-```
-# given some correlation matrix object returned by hmisc::rcorr(d)
-# d containd columns; all pairwise correlations computed 
-p.adjust.cormat = function(hmisc.cor, method = 'fdr'){ 
-  stopifnot(isTRUE(isSymmetric(hmisc.cor$P)))
-  p.adj.lower = p.adjust(hmisc.cor$P[lower.tri(hmisc.cor$P)], method = method)
-  p.adj.upper = p.adjust(hmisc.cor$P[upper.tri(hmisc.cor$P)], method = method)
-  p.adj.mx <- matrix(rep(0,ncol(hmisc.cor$P)*ncol(hmisc.cor$P)), nrow = ncol(hmisc.cor$P))
-  p.adj.mx[lower.tri(p.adj.mx)] <- p.adj.lower
-  p.adj.mx[upper.tri(p.adj.mx)] <- p.adj.upper
-  diag(p.adj.mx) = 1
-  colnames(p.adj.mx) = rownames(p.adj.mx) = colnames(hmisc.cor$P)
-  stopifnot(isTRUE(isSymmetric(p.adj.mx)))
-  return(p.adj.mx)
-}
-
-```
 
 ### simple scale function
 
@@ -161,6 +141,12 @@ saveRDS(ss, file = paste0(datapath, 'new.rds'))
 ```
 
 ## data wrangling
+
+## specify a conflicted function preference
+prefer to use dplyr filter over another package. 
+```
+conflicted::conflict_prefer("filter", "dplyr")
+```
 
 ### create multiple grouped aggregation and summary stats simultaneously
 After group by summarize, just separate the new vars being added with commas within the summarize call. 
