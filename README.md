@@ -61,7 +61,7 @@
 
 # Miscellaneous code snippets and helper utility functions
 
-For internal reference
+For internal reference. 
 
 ## Website workflow
 
