@@ -126,38 +126,6 @@ ent = ent[!dup, ]$ENTREZID
 ent = ent[!is.na(ent)]
 ```
 
-### Seurat v2 conversion to v3 or 4 + 
-
-```{r}
-
-# R 4.2 Seurat v 3 or 4 
-suppressMessages(library(Seurat))
-
-# your path datapath = my_path
-# dir.create(datapath)
-
-# read main object Seurat 2.4 
-# s = readRDS(file = 'my_path/'))
-
-# save cell IDs 
-cells = rownames(s@meta.data)
-
-# extract data structure from Seurat V2 object
-md = s@meta.data[cells, ]
-rna.raw = s@raw.data[ ,cells]
-rna.norm = s@data[ ,cells]
-adt.raw = s@assay$CITE@raw.data[ ,cells]
-adt.norm = s@assay$CITE@data[ ,cells]
-
-# make Seurat v4 object 
-ss = CreateSeuratObject(counts = rna.raw, meta.data = md)
-ss@assays$RNA@data = rna.norm
-adt.assay = CreateAssayObject(counts = adt.raw)
-ss[['CITE']] <- adt.assay
-ss@assays$CITE@data <- adt.norm
-saveRDS(ss, file = paste0(datapath, 'new.rds'))
-
-```
 
 ## data wrangling
 
@@ -208,20 +176,6 @@ new_df =
   filter(timepoint == "second_timepoint")  
 ```
 
-### Non standard evaluation for programming with dplyr verbs
-Note dont do this anymore better to not program with tidyverse functions.... 
-
-[see here](https://dplyr.tidyverse.org/articles/programming.html) need to **Embrace** the argument in double brackets {{}}. 
-```{r}
-collapsedown = function(dat, grouping_var){
-  gvar = rlang::sym(grouping_var)
-  dat %>% 
-    dplyr::group_by({{gvar}}) %>% 
-    dplyr::summarise_each(list(~unique(.)))  
-}
-yy = collapsedown(dat = cell_metadata[ ,vars_all], grouping_var = 'sample')
-
-```
 
 
 ## data visualization
@@ -493,4 +447,57 @@ sudo sysctl debug.lowpri_throttle_enabled=1
 ```
 # last command is time in seconds - this for 27hours, e.g. 86400 is stay awa
 caffeinate -d -i -m -s -t 1000000
+```
+## old reference
+
+### Non standard evaluation for programming with dplyr verbs
+Note dont do this anymore better to not program with tidyverse functions.... 
+
+Go with the "tinyverse" instead...  
+
+[see here](https://dplyr.tidyverse.org/articles/programming.html) need to **Embrace** the argument in double brackets {{}}. 
+```{r}
+collapsedown = function(dat, grouping_var){
+  gvar = rlang::sym(grouping_var)
+  dat %>% 
+    dplyr::group_by({{gvar}}) %>% 
+    dplyr::summarise_each(list(~unique(.)))  
+}
+yy = collapsedown(dat = cell_metadata[ ,vars_all], grouping_var = 'sample')
+
+```
+
+
+### Seurat v2 conversion to v3 or 4 + 
+
+migrated to bioconductor bc seurat 5 is once again not backward compatible. 
+```{r}
+
+# R 4.2 Seurat v 3 or 4 
+suppressMessages(library(Seurat))
+
+# your path datapath = my_path
+# dir.create(datapath)
+
+# read main object Seurat 2.4 
+# s = readRDS(file = 'my_path/'))
+
+# save cell IDs 
+cells = rownames(s@meta.data)
+
+# extract data structure from Seurat V2 object
+md = s@meta.data[cells, ]
+rna.raw = s@raw.data[ ,cells]
+rna.norm = s@data[ ,cells]
+adt.raw = s@assay$CITE@raw.data[ ,cells]
+adt.norm = s@assay$CITE@data[ ,cells]
+
+# make Seurat v4 object 
+ss = CreateSeuratObject(counts = rna.raw, meta.data = md)
+ss@assays$RNA@data = rna.norm
+adt.assay = CreateAssayObject(counts = adt.raw)
+ss[['CITE']] <- adt.assay
+ss@assays$CITE@data <- adt.norm
+saveRDS(ss, file = paste0(datapath, 'new.rds'))
+
 ```
