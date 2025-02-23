@@ -1,7 +1,6 @@
-# Code Snippets
+# Miscellaneous code snippets and helper utility functions
 
-Miscellaneous functions and documentation.  
-
+For internal reference
 
 ## Website workflow
 
