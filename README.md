@@ -209,6 +209,7 @@ new_df =
 ```
 
 ### Non standard evaluation for programming with dplyr verbs
+Note dont do this anymore better to not program with tidyverse functions.... 
 
 [see here](https://dplyr.tidyverse.org/articles/programming.html) need to **Embrace** the argument in double brackets {{}}. 
 ```{r}
@@ -277,6 +278,14 @@ boxbox = list(
         )
 ```
 
+### ggplot make the axis tics more natural and uniform 
+
+```
+# e.g. y axis 
+scale_y_continuous(breaks= scales::pretty_breaks())
+
+```
+
 ### ggplot rotate axis 
 ```{r}
  theme(axis.text.x=element_text(angle = -90, hjust = 0))
@@ -304,43 +313,89 @@ cat(gsub("\\b", '"', vector, perl=T))
 
 ```
 
-## error handling 
+## error handling and control flow with trycatch 
+
+When iterating through and testing want the function to continue if it encounters an error. 
 
 ### using trycatch 
 generic 
 ```
 tryCatch(function(object = x, args = args), error = function(e) return(NA))
 ```
-Example with additional options 
+Machine learning pipeline example with additional options 
+
 
 ```
-
-tryCatch(
-  expr = {
-  # function here 
-    m1.pls = train(
-      group ~ .,
-      data = dtrain,
-      method = 'pls',
-      tuneGrid = pls.grid,
-      trControl = ctrl,
-      metric = "ROC"
-    )
-    # end function 
-  },
-  error = function(e){
-    message('error')
-    return(NA)
-  },
-  finally = {
-    message('done')
+  # Loop over each algorithm in the list
+  for (i in seq_along(caret.algorithm)) {
+    method.use <- caret.algorithm[i]
+    grid.use   <- grid.list[[i]]
+    
+    print(paste0("training ", method.use))
+    model.fits[[i]] <- tryCatch({
+      train(
+        group ~ .,
+        data = data.combined,
+        method = method.use,
+        tuneGrid = grid.use,
+        trControl = ctrl,
+        metric = "ROC"
+      )
+    }, error = function(e) {
+      message("Error for method ", method.use, ": ", e$message)
+      NA
+    })
+    message("done")
   }
-)  
 
 ```
+
 
 
 ## Lists 
+
+### combine a list into a named dataframe 
+
+Binding named lists into rows of a data.frame with conversions into different data containers like data.frame or tibble
+
+```{r}
+
+function(x) {
+  # tibble::as_tibble(x <- data.table::setDF(
+  # data.frame(x <- data.table::setDF(
+    data.table::rbindlist(x, use.names = TRUE, fill = TRUE, idcol = "id")
+))
+}
+
+```
+
+### flatten a list of lists into the top level list base R only  
+Optionally append the name of the first level list with the names of second level list being combined.  
+
+For example the object, `pathways` with the following structure:
+
+$CD4Tcell_naive  
+"HALLMARK_TNFA_SIGNALING_VIA_NFKB"  
+
+$CD8Tcell_dim  
+"HALLMARK_TNFA_SIGNALING_VIA_NFKB"  
+"HALLMARK_KRAS_SIGNALING_UP"  
+
+Gets combined into a single list:  
+"CD4Tcell_naive--HALLMARK_TNFA_SIGNALING_VIA_NFKB"  
+"CD8Tcell_dim--HALLMARK_TNFA_SIGNALING_VIA_NFKB"  
+"CD8Tcell_dim--HALLMARK_KRAS_SIGNALING_UP"  
+
+```{r}
+pathways = do.call(
+  c, # combine
+  lapply(names(pathways), function(x) {
+    setNames(pathways[[x]], paste0(x, "--", names(pathways[[x]]))) 
+  })
+)
+```
+
+
 
 ### reorder a list based on vector
 ```
