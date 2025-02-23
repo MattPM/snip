@@ -36,31 +36,53 @@ After making changes use `rmarkdown::render_site()`. Then commit + push.
 
 ## stats related 
 
-### t statistic from matrix of variables across 2 groups 
+### quick linear model of predictors association with outcome 
 
-extract variable T statistics on a matrix, with a grouping factor as the first column. Useful for sanirt check on direction of variable importance. 
-Assuming data structure of dataframe `d` looks like: 
+Useful for quickly testing the direction of association between features and response variable, for example, get the direction of association with the outcome of the features with high variable importance scores from a ML model. 
+
+structure of `dat`
+
+| group.factor    | gene1  | gene2 |
+| -------- | ------- |-------- |
+| high  | 0.5   |0.6|
+| low | 0.4   |0.3|
+| high    | 0.3    |0.2 |
+
+```{r}
+
+# classification example with 2 classes - ensure factor levels are ordered correctly 
+dat$group = factor($group, levels = c('low', 'high'))
+
+get.linear.coef = function(x, y) {
+  test = lm(x ~ y)
+  out <- c(beta = coef(test)[2])
+}
+
+# optionally define feature subset in place of -1 indexing below, which removes the group var from the features. 
+
+feature.coef = apply(dat[ ,-1], 2,  get.linear.coef, y = dat$group)
+dplot = data.frame(beta = feature.coef)
+plot(dplot) 
+
 ```
-group Var1 Var2
-"low" 5   3
-"low" 5   5
-"high"  3   7
-"high"  3   8
 
-```
+### quick t test of predictors association with outcome 
 
-code 
+Same as above but use a Wilcoxon rank test or t test.  
+Here i also collect the test p value...   
+Again assuming the structure of the dat `dat` is the same as above.  
+ 
 ```
 # get t stats of individual features 
 do.ttest = function(x, y) {
   ttest = t.test(x ~ y)
   out <- c(tstat = ttest$statistic, pval = ttest$p.value)
-  out
+  return(out)
 }
-tval = apply(d[ , -c(1)], MARGIN = 2, FUN = do.ttest, y = d$group) %>%
+tval = apply(dat[ , -1], 2, do.ttest, y = dat$group) %>%
   t() %>%
   as.data.frame() %>%
-  rownames_to_column('feature')
+  tibble::rownames_to_column('feature')
 ```
 
 Quick visualization of group differences for select vars in the matrix. 
@@ -74,10 +96,7 @@ p = ggplot(data = d.long, aes(x = value, y = group,  fill = group, color = group
   facet_grid(rows = vars(variable), scales = 'free', space = 'free') +
   theme(strip.text.y = element_text(angle = 0))
 
-# save long fig size 
-
 ```
-
 
 ### simple scale function
 
