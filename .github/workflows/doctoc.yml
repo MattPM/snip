@@ -1,0 +1,30 @@
+name: Update TOC with doctoc
+
+on:
+  push:
+    paths:
+      - 'README.md'
+
+jobs:
+  update-toc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install doctoc
+        run: npm install -g doctoc
+
+      - name: Update README TOC
+        run: doctoc README.md
+
+      - name: Commit updated README
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Update README TOC"
+          add: 'README.md'
